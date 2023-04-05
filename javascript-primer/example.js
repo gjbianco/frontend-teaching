@@ -104,3 +104,51 @@ const divideNumbers = (x, y) => {
 }
 
 // to keep your sanity, just completely ignore the `this` keyword
+
+// MISCELLANEOUS
+
+// quickly pull fields off of objects
+const person = {
+    firstName: "Timmy",
+    age: 12
+};
+const {firstName, age} = person;
+
+// you only need the key if the attribute is the same as a variable
+const anotherPerson = {
+    firstName,
+    age
+};
+
+// copy all the attributes from an object and set new ones
+const thirdPerson = {
+    ...person,
+    lastName: "Smith"
+};
+
+// or update existing ones
+const fourthPerson = {
+    ...thirdPerson,
+    firstName: "Julia"
+};
+
+// this has the same results
+fourthPerson = {
+    firstName: "Julia",
+    lastName: "Smith",
+    age: 12
+};
+
+// it also works for lists
+const us = [
+    person,
+    anotherPerson,
+];
+const them = [
+    thirdPerson,
+    fourthPerson
+];
+const everybody = [
+    ...us,
+    ...them
+]
