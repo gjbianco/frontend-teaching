@@ -151,4 +151,38 @@ const them = [
 const everybody = [
     ...us,
     ...them
-]
+];
+
+// ASYNCHRONOUS
+
+// Promises
+const providesValue = new Promise((resolve, reject) => {
+    if (2 > 1) {
+        resolve('ran fine');
+    } else {
+        reject('failed');
+    }
+});
+providesValue.then(val => {
+    // val = 'ran fine'
+    console.log(val);
+}).catch(err => {
+    // won't actually run, but could easily be 'failed'
+    console.error(err);
+});
+
+// async/await are just wrappers around Promises
+async function usesPromise() {
+    try {
+        const val = await providesValue;
+        // val = 'ran fine'
+        return val;
+    } catch(e) {
+        // would get 'failed'
+    }
+}
+
+async function alsoAwaits() {
+    const fromWrapper = await usesPromise();
+    // fromWrapper = 'ran fine'
+}
