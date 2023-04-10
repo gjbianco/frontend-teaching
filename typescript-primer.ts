@@ -63,4 +63,9 @@ const authorAge = proGit.author ? currYear - proGit.author.birthYear : 0;
 const authorAge2 = currYear - (proGit.author?.birthYear ?? 0);
 
 // you can just keep chaining if you need
-const fakeBookAuthorYear = books[10]?.author?.birthYear; // not useful, but safe
+// TS knows that fakeBookAuthorYear can only be a number
+const fakeBookAuthorYear = books[10]?.author?.birthYear ?? 0;
+
+// nullish coalescing can be similar to the OR trick, but safer
+const someYear = fakeBookAuthorYear || 2000; // if fakeBookAuthorYear is ANY falsy value, then 2000 is used
+const someOtherYear = fakeBookAuthorYear ?? 2000; // only 2000 iff fakeBookAuthorYear is null or undefined
