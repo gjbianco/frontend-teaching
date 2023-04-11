@@ -1,0 +1,22 @@
+.App {
+  width: 20rem;
+}
+
+.card {
+  width: 15rem;
+  margin: 1rem;
+  padding: 1rem;
+  border: 2px solid seagreen;
+  border-radius: 5px;
+  background-color: darkseagreen;
+  color: #222;
+}
+
+.card button {
+  margin: 0.5rem;
+  background-color: aquamarine;
+  border-radius: 3px;
+  border-color: lightblue;
+  font-weight: 800;
+  font-size: 1em;
+}
