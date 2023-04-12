@@ -107,6 +107,15 @@ const divideNumbers = (x, y) => {
 
 // MISCELLANEOUS
 
+// quickly get values from a list
+const [first, second, third] = [
+    "first",
+    "second",
+    "third",
+    "fourth",
+    "fifth"
+];
+
 // quickly pull fields off of objects
 const person = {
     firstName: "Timmy",

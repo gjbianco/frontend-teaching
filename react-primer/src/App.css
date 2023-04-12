@@ -1,10 +1,11 @@
 .App {
   width: 20rem;
+  padding: 1rem;
 }
 
 .card {
-  width: 15rem;
   margin: 1rem;
+  width: 15rem;
   padding: 1rem;
   border: 2px solid seagreen;
   border-radius: 5px;

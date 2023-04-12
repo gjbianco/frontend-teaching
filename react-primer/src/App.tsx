@@ -3,6 +3,7 @@ import "./App.css";
 
 import Counter from "./Counter";
 import { BulletedList } from "./ListComponent";
+import Movies from "./Movies";
 
 export default function App() {
   return (
@@ -11,7 +12,13 @@ export default function App() {
       {/* <BulletedList /> */}
 
       {/* a simple stateful counter component */}
-      <Counter />
+      {/* <Counter /> */}
+
+      {/* data-backed list */}
+      <Movies />
+
+      {/* data-backed and stateful todo list */}
+      {/* <TodoList /> */}
     </div>
   );
 }

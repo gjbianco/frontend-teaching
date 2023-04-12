@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export default function Counter() {
+  // create a new piece of state that defaults to 0
   const [count, setCount] = useState(0);
 
   return (
