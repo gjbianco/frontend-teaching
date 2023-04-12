@@ -3,7 +3,8 @@ import "./App.css";
 
 import Counter from "./Counter";
 import { BulletedList } from "./ListComponent";
-import Movies from "./Movies";
+import { Movies } from "./Movies";
+import { TodoList } from "./TodoList";
 
 export default function App() {
   return (
@@ -15,10 +16,10 @@ export default function App() {
       {/* <Counter /> */}
 
       {/* data-backed list */}
-      <Movies />
+      {/* <Movies /> */}
 
       {/* data-backed and stateful todo list */}
-      {/* <TodoList /> */}
+      <TodoList />
     </div>
   );
 }

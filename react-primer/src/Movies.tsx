@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Movie, getMovies } from "./services/movies";
 
-export default function Movies() {
+export function Movies() {
   // we need to specify the generic type because an empty list isn't a Movie[]
   const [movies, setMovies] = useState<Movie[]>([]);
 
