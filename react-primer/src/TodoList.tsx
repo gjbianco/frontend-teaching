@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { TodoItem, addTodoItem, getTodoItems } from "./services/todo";
+import { useEffect, useState } from "react";
+import {
+  TodoItem,
+  addTodoItem,
+  getTodoItems,
+  deleteItem,
+  toggleCompletion,
+} from "./services/todo";
 
 export function TodoList() {
   const [todos, setTodos] = useState<TodoItem[]>([
@@ -7,50 +13,78 @@ export function TodoList() {
     { message: "bar", completed: true },
   ]);
 
-  useEffect(() => {
+  // call function only once
+  useEffect(refreshItems, []);
+
+  function refreshItems() {
     getTodoItems().then(setTodos);
-  }, [todos]);
+  }
 
   return (
     <>
-      <h2>Todo List</h2>
-      <TodoForm />
-      {todos.map((todo) => (
-        <>
-          <input type="checkbox" value={todo.completed + ""} />
-          <span>{todo.message}</span>
-        </>
-      ))}
+      <h2>
+        Todo List
+        <span onClick={refreshItems}>♻</span>
+      </h2>
+      <TodoItemForm
+        onSubmit={async (item) => {
+          await addTodoItem(item);
+          refreshItems();
+        }}
+      />
+      <TodoItemList
+        items={todos}
+        toggleCompletion={toggleCompletion}
+        deleteItem={deleteItem}
+      />
     </>
   );
 }
 
-function TodoForm() {
+function TodoItemForm(props: { onSubmit: (item: TodoItem) => Promise<void> }) {
   const [todoText, setTodoText] = useState("");
 
-  async function submitForm(e: React.FormEvent) {
-    e.preventDefault();
-    try {
-      await addTodoItem({
-        message: todoText,
-        completed: false,
-      });
-      setTodoText("");
-    } catch (e) {
-      alert(e);
-    }
-  }
-
   return (
-    <form onSubmit={submitForm}>
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        try {
+          await props.onSubmit({ message: todoText, completed: false });
+          setTodoText("");
+        } catch (e) {
+          alert(e);
+        }
+      }}
+    >
       <input
         type="text"
         value={todoText}
+        required={true}
         onChange={(e) => setTodoText(e.currentTarget.value)}
       />
-      <button type="submit" onClick={submitForm}>
+      <button type="submit" disabled={!todoText}>
         Add
       </button>
     </form>
+  );
+}
+
+function TodoItemList(props: {
+  items: TodoItem[];
+  deleteItem: (index: number) => void;
+  toggleCompletion: (index: number) => void;
+}) {
+  return (
+    <>
+      {props.items.map((todo, index) => (
+        <div key={index}>
+          <span onClick={() => props.toggleCompletion(index)}>
+            {todo.completed ? "☒" : "☐"}
+          </span>
+          <span>{todo.message}</span>
+          <button onClick={() => props.deleteItem(index)}>X</button>
+        </div>
+      ))}
+    </>
   );
 }
