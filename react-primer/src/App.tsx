@@ -4,7 +4,7 @@ import "./App.css";
 import Counter from "./Counter";
 import { BulletedList } from "./ListComponent";
 import { Movies } from "./Movies";
-import { TodoList } from "./TodoList";
+import { TodoList } from "./todo-list/TodoList";
 
 export default function App() {
   return (

@@ -1,15 +1,6 @@
 const FLAKY_API = true;
 const TODO_KEY = "todos";
 
-// specify type, otherwise it is any[]
-// let todoItems: TodoItem[] = [
-//   {
-//     completed: false,
-//     message: "foo",
-//   },
-//   { completed: true, message: "bar" },
-// ];
-
 export type TodoItem = {
   message: string;
   completed: boolean;
@@ -40,17 +31,13 @@ export async function deleteItem(index: number) {
 
   // because we are going straight to a string anyway, we don't *really* need to copy the list
   // however, it is good practice to handle arrays in an immutable way
-  localStorage.setItem(
-    TODO_KEY,
-    JSON.stringify([...todoItems.slice(0, index), ...todoItems.slice(index)])
-  );
+  const newList = [...todoItems.slice(0, index), ...todoItems.slice(index + 1)];
+  localStorage.setItem(TODO_KEY, JSON.stringify(newList));
 }
 
 export async function toggleCompletion(index: number) {
-  if (FLAKY_API && Math.random() < 0.5) {
-    const todoItems = await getTodoItems();
-    todoItems[index].completed = !todoItems[index].completed;
-    localStorage.setItem(TODO_KEY, JSON.stringify([todoItems]));
-    return Promise.resolve();
-  }
+  const todoItems = await getTodoItems();
+  todoItems[index].completed = !todoItems[index].completed;
+  localStorage.setItem(TODO_KEY, JSON.stringify(todoItems));
+  return Promise.resolve();
 }
