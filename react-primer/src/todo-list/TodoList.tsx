@@ -36,16 +36,16 @@ export function TodoList() {
 
   return (
     <>
-      <h2>
-        Todo List
-        <span onClick={refreshItems}>♻</span>
-      </h2>
-      <TodoItemForm onSubmit={handleSubmitTodo} />
+      <h1>Todo List</h1>
+
+      <button onClick={refreshItems}>Refresh</button>
       <TodoItemList
         items={todos}
         toggleCompletion={handleToggleCompletion}
         deleteItem={handleDeleteTodo}
       />
+
+      <TodoItemForm onSubmit={handleSubmitTodo} />
     </>
   );
 }

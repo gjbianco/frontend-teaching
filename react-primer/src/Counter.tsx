@@ -7,8 +7,12 @@ export default function Counter() {
   return (
     <div className="card">
       <h2>Counter: {count}</h2>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <button onClick={() => setCount(count - 1)}>Decrement</button>
+      <div>
+        <button onClick={() => setCount(count + 1)}>Increment</button>
+      </div>
+      <div>
+        <button onClick={() => setCount(count - 1)}>Decrement</button>
+      </div>
     </div>
   );
 }

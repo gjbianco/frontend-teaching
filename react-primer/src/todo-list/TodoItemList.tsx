@@ -10,13 +10,12 @@ export function TodoItemList(props: {
       {props.items.map((todo, index) => (
         <div key={index}>
           <span
-            style={{ fontSize: "18pt" }}
             onClick={() => props.toggleCompletion(index)}
+            style={{ textDecoration: todo.completed ? "line-through" : "none" }}
           >
-            {todo.completed ? "☒" : "☐"}
+            {todo.message}
           </span>
-          <span>{todo.message}</span>
-          <button onClick={() => props.deleteItem(index)}>X</button>
+          <span onClick={() => props.deleteItem(index)}>&nbsp;&nbsp;X</span>
         </div>
       ))}
     </>

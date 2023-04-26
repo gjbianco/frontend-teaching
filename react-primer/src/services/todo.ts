@@ -17,12 +17,18 @@ export async function getTodoItems(): Promise<TodoItem[]> {
 
 // notice that the return type is properly inferred
 export async function addTodoItem(item: TodoItem) {
-  if (FLAKY_API && Math.random() < 0.5) {
-    const todos = await getTodoItems();
-    localStorage.setItem(TODO_KEY, JSON.stringify([...todos, item]));
-    return Promise.resolve(item);
+  if (validateTodoItem(item)) {
+    if (FLAKY_API && Math.random() < 0.5) {
+      const todos = await getTodoItems();
+      localStorage.setItem(TODO_KEY, JSON.stringify([...todos, item]));
+      return Promise.resolve(item);
+    } else {
+      return Promise.reject(
+        "Failed creating todo list item! Please try again."
+      );
+    }
   } else {
-    return Promise.reject("Failed creating todo list item! Please try again.");
+    return Promise.reject("Failed to validate todo list item!");
   }
 }
 
@@ -40,4 +46,14 @@ export async function toggleCompletion(index: number) {
   todoItems[index].completed = !todoItems[index].completed;
   localStorage.setItem(TODO_KEY, JSON.stringify(todoItems));
   return Promise.resolve();
+}
+
+export function validateTodoItem(todoItem: TodoItem): boolean {
+  // this could be improved to specify which validation failed
+  return (
+    typeof todoItem.message === "string" &&
+    todoItem.message.length > 0 &&
+    // todoItem.message !== "baz" &&
+    typeof todoItem.completed === "boolean"
+  );
 }
