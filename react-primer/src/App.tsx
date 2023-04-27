@@ -9,7 +9,7 @@ import { TodoList } from "./todo-list/TodoList";
 
 export default function App() {
   return (
-    <main className="App">
+    <main>
       {/* a simple stateless component */}
       <BulletedList />
       <hr />

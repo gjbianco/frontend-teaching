@@ -38,14 +38,20 @@ export function TodoList() {
     <>
       <h1>Todo List</h1>
 
-      <button onClick={refreshItems}>Refresh</button>
-      <TodoItemList
-        items={todos}
-        toggleCompletion={handleToggleCompletion}
-        deleteItem={handleDeleteTodo}
-      />
+      <section>
+        <aside>
+          <h3>Todo</h3>
+          <TodoItemList
+            items={todos}
+            toggleCompletion={handleToggleCompletion}
+            deleteItem={handleDeleteTodo}
+          />
+        </aside>
+      </section>
 
-      <TodoItemForm onSubmit={handleSubmitTodo} />
+      <section>
+        <TodoItemForm onSubmit={handleSubmitTodo} />
+      </section>
     </>
   );
 }

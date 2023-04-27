@@ -12,19 +12,23 @@ export function Movies() {
   return (
     <div>
       <h2>Movies</h2>
-      {movies.map((movie) => (
-        <div className="card">
-          <h3>{movie.title}</h3>
-          <div>Released in {movie.year}</div>
-          <div>
-            <span>Genres:</span>
-            <ul>
-              {movie.genres.map((genre) => (
-                <li>{capitalize(genre)}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+      {movies.map((movie, index) => (
+        <main key={index}>
+          <h3>
+            {movie.title} ({movie.year})
+          </h3>
+          <p>{movie.synopsis}</p>
+          <details>
+            <div>
+              <label>Genres</label>
+              <ul>
+                {movie.genres.map((genre, index) => (
+                  <li key={index}>{capitalize(genre)}</li>
+                ))}
+              </ul>
+            </div>
+          </details>
+        </main>
       ))}
     </div>
   );
