@@ -8,36 +8,34 @@ const width: number = 10;
 const isAvailable: boolean = true;
 const now: Date = new Date();
 const fruits: string[] = [
-    "apple",
-    "banana",
-    "cherry",
-    // 123 // type warning!
+  "apple",
+  "banana",
+  "cherry",
+  // 123 // type warning!
 ];
 
 // you can also declare your own types and interfaces
 type Person = {
-    name: string;
-    birthYear: number; // optional
+  name: string;
+  birthYear: number; // optional
 };
 interface Book {
-    title: string,
-    author?: Person,
-    publicationYear?: number
+  title: string;
+  author?: Person;
+  publicationYear?: number;
 }
 
 const proGit: Book = {
-    title: "Pro Git",
-    publicationYear: 2014,
-    author: {
-        name: "Scott Chacon", // try commenting
-        birthYear: 40 // no idea of actual age
-    }
+  title: "Pro Git",
+  publicationYear: 2014,
+  author: {
+    name: "Scott Chacon", // try commenting
+    birthYear: 40, // no idea of actual age
+  },
 };
 
 // don't ALWAYS declare everything -- rely on type inference!
-const books = [
-    proGit
-];
+const books = [proGit];
 
 // DEALING WITH OPTIONALS
 
@@ -48,13 +46,15 @@ const currYear = new Date().getFullYear();
 
 let yearsSince2 = 0;
 if (proGit.publicationYear) {
-    // we know it can't be undefined so it's okay
-    yearsSince2 = currYear - proGit.publicationYear;
-    // but we do have to use let and not const...
+  // we know it can't be undefined so it's okay
+  yearsSince2 = currYear - proGit.publicationYear;
+  // but we do have to use let and not const...
 }
 
 // we can use a ternary to make it better
-const yearsSince3 = proGit.publicationYear ? currYear - proGit.publicationYear : 0;
+const yearsSince3 = proGit.publicationYear
+  ? currYear - proGit.publicationYear
+  : 0;
 
 // optional objects gets kinda messy...
 const authorAge = proGit.author ? currYear - proGit.author.birthYear : 0;
