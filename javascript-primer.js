@@ -129,11 +129,11 @@ const fourthPerson = {
 };
 
 // this has the same results
-fourthPerson = {
-  firstName: "Julia",
-  lastName: "Smith",
-  age: 12,
-};
+// fourthPerson = {
+//   firstName: "Julia",
+//   lastName: "Smith",
+//   age: 12,
+// };
 
 // it also works for lists
 const us = [person, anotherPerson];
