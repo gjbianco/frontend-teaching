@@ -7,12 +7,18 @@ TypeScript is NOT:
   - A JavaScript replacement
   - A silver bullet
   - A runtime
-  - "OOScript"
+  - "ObjectOrientedScript"
+
+Transpilation:
+  - Still use a "compiler"
+  - Targeting another programming language
+  - Should treat outputs like binary artifacts
 
 Runtimes:
-  - Deno
-  - Bun.js
+  - DIY + Node.js
   - ts-node (not ACTUALLY a runtime)
+  - Deno
+  - Bun
 
 */
 
@@ -54,9 +60,9 @@ const bob = {
 };
 console.log(`${bob.name}'s favorite color is ${bob.favoriteColor}`);
 
-const person: Person = bob;
+const personBob: Person = bob;
 console.log(
-  `${person.name}'s age is ${new Date().getFullYear() - person.birthYear}`
+  `${personBob.name}'s age is ${new Date().getFullYear() - personBob.birthYear}`
 );
 
 // Doesn't have a `favoriteColor` anymore!
@@ -73,7 +79,7 @@ const proGit: Book = {
   publicationYear: 2014,
   author: {
     name: "Scott Chacon", // try commenting
-    birthYear: 40, // no idea of actual age
+    birthYear: 1980, // no idea of actual age
   },
 };
 
@@ -82,40 +88,48 @@ const books = [proGit];
 
 // DEALING WITH OPTIONALS
 
-// just grabbing the current year
 const currYear = new Date().getFullYear();
 
-// const yearsSince = currYear - proGit.publicationYear; // fails because age might be undefined
+// publicationYear might be undefined
+// console.log(`It's been ${currYear - proGit.publicationYear} years`);
 
-let yearsSince2 = 0;
 if (proGit.publicationYear) {
   // we know it can't be undefined so it's okay
-  yearsSince2 = currYear - proGit.publicationYear;
-  // but we do have to use let and not const...
+  console.log(`It's been ${currYear - proGit.publicationYear} years`);
 }
 
-// we can use a ternary to make it better
-const yearsSince3 = proGit.publicationYear
+// we can also use a ternary for quick assignment
+const yearsSince = proGit.publicationYear
   ? currYear - proGit.publicationYear
   : 0;
 
-// optional objects gets kinda messy...
-const authorAge = proGit.author ? currYear - proGit.author.birthYear : 0;
+// optional objects gets kinda messy... (please never do this)
+const authorAge = proGit.author
+  ? proGit.author.birthYear
+    ? currYear - proGit.author.birthYear
+    : 0
+  : 0;
 
-// nullish coalescing makes this cleaner
-const authorAge2 = currYear - (proGit.author?.birthYear ?? 0);
+// we CAN use normal if statements, but that requires let and a type
+let authorAgeLet: number;
+if (proGit.author && proGit.author.birthYear) {
+  authorAgeLet = currYear - proGit.author.birthYear;
+}
+
+// nullish coalescing makes this way cleaner
+const authorAgeCoalesced = currYear - (proGit.author?.birthYear ?? 0);
 
 // you can just keep chaining if you need
-// TS knows that fakeBookAuthorYear can only be a number
+// TS still infers that fakeBookAuthorYear can only be a number
 const fakeBookAuthorYear = books[10]?.author?.birthYear ?? 0;
 
 // nullish coalescing can be similar to the OR trick, but safer
-const someYear = fakeBookAuthorYear || 2000; // if fakeBookAuthorYear is ANY falsy value, then 2000 is used
+const someYear = fakeBookAuthorYear || 2000; // if fakeBookAuthorYear is ANY falsy value (including 0), then 2000 is used
 const someOtherYear = fakeBookAuthorYear ?? 2000; // only 2000 iff fakeBookAuthorYear is null or undefined
 
 // THE ANY TYPE
 
-// rule of thumb: declare enough types to be safe, but not too many
+// rule of thumb: declare JUST ENOUGH types to be safe
 
 // arguably too many types
 function subtractVerbose(x: number, y: number): number {
@@ -140,3 +154,26 @@ console.log("I can (try to) divide anything: " + dangerousDivide("foo", 2));
 function justEnoughPower(x: number, y: number) {
   return x ** y;
 }
+
+// ASYNC/AWAIT TYPES
+
+// explicit returns are effectively a cast
+async function promisesUsers(): Promise<Person[]> {
+  const people = [
+    { name: "Tom", birthYear: 1950 },
+    { name: "Julia", birthYear: 1992 },
+    { name: "Frank", birthYear: 1978 },
+  ];
+  return people;
+}
+
+async function awaitsUsers() {
+  // we are in trouble if the list is empty...
+  const username = (await promisesUsers())[0].name;
+  return username;
+}
+
+// can't always use await at top level, but it's still just a Promise!
+awaitsUsers().then((users) => {
+  console.log("First user's name: " + users);
+});
